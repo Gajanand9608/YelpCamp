@@ -6,9 +6,13 @@ const methodOverride = require('method-override');
 const ExpressError = require('./utils/ExpressError');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
-const campgrounds = require('./routes/campground');
-const reviews = require('./routes/review');
+const campgroundRoutes = require('./routes/campground');
+const reviewRoutes = require('./routes/review');
+const userRoutes  = require('./routes/user');
 
 var dotenv = require('dotenv');
 dotenv.config();
@@ -53,17 +57,26 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 
 app.use((req, res, next)=>{
+    console.log(req.session);
+    res.locals.currentUser = req.user;
     res.locals.success=req.flash('success');
     res.locals.error=req.flash('error');
     next();
 });
 
-
-app.use('/campgrounds',campgrounds);
-app.use('/campgrounds/:id/reviews',reviews);
+app.use('/', userRoutes);
+app.use('/campgrounds',campgroundRoutes);
+app.use('/campgrounds/:id/reviews',reviewRoutes);
 
 
 app.get('/', (req, res)=>{
