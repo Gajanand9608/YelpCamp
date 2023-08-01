@@ -21,10 +21,11 @@ module.exports.createCampground= async(req, res,next) =>{
     }).send()
     const campground = new Campground(req.body.campground);
     campground.geometry = geoData.body.features[0].geometry;
+    // console.log(campground.geometry);
     campground.images = req.files.map(f =>({url:f.path,filename:f.filename}));
     campground.author = req.user._id;
     await campground.save();
-    console.log(campground);
+    // console.log(campground);
     req.flash('success', 'Successfully made a new campground');
     res.redirect(`/campgrounds/${campground._id}`);
 }

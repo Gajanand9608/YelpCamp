@@ -1,10 +1,13 @@
+if(process.env.NODE_ENV !== "production"){
+    require('dotenv').config();
+}
 
 const mongoose = require('mongoose');
 const Campground = require('../models/campground');
 const cities= require('./cities');
 const {places, descriptors}= require('./seedHelpers');
 
-const dburl ='mongodb+srv://gajanandsharma088:gaja123@cluster0.zcob3ye.mongodb.net/?retryWrites=true&w=majority';
+var dburl = process.env.dbURL;
 mongoose.connect(dburl,{
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -20,15 +23,21 @@ const sample = array => array[Math.floor(Math.random()*array.length)];
 
 const seedDB = async ()=>{
     await Campground.deleteMany({});
-    for(let i=0;i<50;i++){
+    for(let i=0;i<300;i++){
         const random1000 = Math.floor(Math.random() *1000);
         const price = Math.floor(Math.random()*20)+10;
         const camp =new Campground({
             author: '64c5f96bef4d8519b78acd7e',
             location:`${cities[random1000].city}, ${cities[random1000].state}`,
             title:`${sample(descriptors)} ${sample(places)}`,
-            // image:'https://source.unsplash.com/collection/2184453',
-            geometry: { type: 'Point', coordinates: [ 88.363881, 22.572672 ] },
+            image:'https://source.unsplash.com/collection/2184453',
+            geometry: { 
+                type: 'Point', 
+                coordinates: [
+                cities[random1000].longitude, 
+                cities[random1000].latitude,
+            ] 
+            },
             images:  [
                 {
                   url: 'https://res.cloudinary.com/da1qsm7rq/image/upload/v1690728805/YelpCamp/emxinqvwomxkwdtftvua.jpg',
