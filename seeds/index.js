@@ -28,6 +28,7 @@ const seedDB = async ()=>{
             location:`${cities[random1000].city}, ${cities[random1000].state}`,
             title:`${sample(descriptors)} ${sample(places)}`,
             // image:'https://source.unsplash.com/collection/2184453',
+            geometry: { type: 'Point', coordinates: [ 88.363881, 22.572672 ] },
             images:  [
                 {
                   url: 'https://res.cloudinary.com/da1qsm7rq/image/upload/v1690728805/YelpCamp/emxinqvwomxkwdtftvua.jpg',
