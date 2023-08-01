@@ -15,6 +15,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
+const MongoStore = require('connect-mongo');
 
 
 const campgroundRoutes = require('./routes/campground');
@@ -23,9 +24,9 @@ const userRoutes  = require('./routes/user');
 
 
 
-var url = process.env.dbURL;
+var dbburl = process.env.dbURL;
 
-mongoose.connect(url,{
+mongoose.connect(dbburl,{
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -50,22 +51,16 @@ app.use(mongoSanitize());
 
 const secret = process.env.SECRET || 'thisshouldbeabettersecret';
 
-const sessionConfig = {
-    name:'session',
-    secret,
-    resave:false,
-    saveUninitialized:true,
-    cookie:{
-        httpOnly:true,
-        secure:true,
-        expires:Date.now() + 7*24*60*60*1000,
-        maxAge: 7*24*60*60*1000
-    }
-}
 
-
-
-app.use(session(sessionConfig));
+app.use(session({
+    secret: secret,
+    saveUninitialized: false, // don't create session until something stored
+    resave: false, //don't save session if unmodified
+    store: MongoStore.create({
+      mongoUrl: dbburl,
+      touchAfter: 24 * 3600 // time period in seconds
+    })
+  }));
 app.use(flash());
 
 app.use(passport.initialize());
