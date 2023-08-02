@@ -9,7 +9,7 @@ A Full stack website to explore our many campgrounds and feel free to share some
 - Viewing list of campgrounds
 - Updating campgrounds
 - Create, Like, Edit feature for campgrounds
-- Cluster Map showing all camogrounds
+- Cluster Map showing all campgrounds
 - Viewing campground location in Map
 
 
