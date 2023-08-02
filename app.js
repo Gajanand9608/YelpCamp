@@ -59,7 +59,13 @@ app.use(session({
     store: MongoStore.create({
       mongoUrl: dbburl,
       touchAfter: 24 * 3600 // time period in seconds
-    })
+    }),
+    cookie:{
+        httpOnly:true,
+        secure:true,
+        expires:Date.now() + 7*24*60*60*1000,
+        maxAge: 7*24*60*60*1000
+    }
   }));
 app.use(flash());
 
