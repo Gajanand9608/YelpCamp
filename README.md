@@ -23,5 +23,5 @@ A Full stack website to explore our many campgrounds and feel free to share some
 
 **Client**: EJS, CSS
     
-## Published website address
+## Deployed website
 https://yelpcamp-fg2e.onrender.com/campgrounds
