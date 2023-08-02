@@ -15,7 +15,7 @@ A Full stack website to explore our many campgrounds and feel free to share some
 
 
 <p align="center">
-  <img width="600" src="" alt="Website screenshot">
+  <img width="600" src="https://res.cloudinary.com/da1qsm7rq/image/upload/v1690956929/YelpCamp/logo/Blank_6_Grids_Collage_yumdzx.jpg" alt="Website screenshot">
 </p>
 
 ## Tech Used
